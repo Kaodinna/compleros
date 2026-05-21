@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-eb-garamond: "EB Garamond", Georgia, serif;
+    --font-dm-sans: "DM Sans", Calibri, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-body text-[#2D2D2D] bg-white antialiased overflow-x-hidden;
+  }
+
+  * {
+    @apply box-border;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-[1200px] mx-auto;
+  }
+
+  .section-tag {
+    @apply text-xs font-semibold uppercase tracking-[2px] text-gold mb-4;
+  }
+
+  .section-title {
+    @apply font-heading text-[28px] sm:text-[34px] md:text-[40px] font-semibold text-navy leading-[1.2] mb-5;
+  }
+
+  .section-desc {
+    @apply text-[15px] sm:text-[17px] text-muted max-w-[600px] leading-[1.7] mb-12;
+  }
+
+  .btn-primary {
+    @apply bg-navy text-white px-6 py-3 rounded-btn font-semibold text-sm
+           hover:bg-navy-dark transition-all duration-200 hover:-translate-y-px;
+  }
+
+  .btn-gold {
+    @apply bg-gold text-white px-6 py-3 rounded-btn font-semibold text-sm
+           hover:bg-gold-dark transition-all duration-200 hover:-translate-y-px;
+  }
+
+  .btn-outline {
+    @apply border-2 border-navy text-navy px-6 py-3 rounded-btn font-semibold text-sm
+           hover:bg-navy hover:text-white transition-all duration-200;
+  }
+
+  .btn-outline-white {
+    @apply border-2 border-white text-white px-6 py-3 rounded-btn font-semibold text-sm
+           hover:bg-white hover:text-navy transition-all duration-200;
+  }
+
+  .feature-card {
+    @apply p-9 border border-border rounded-card bg-white transition-all duration-300
+           hover:border-gold hover:shadow-card hover:-translate-y-1;
+  }
+
+  .pricing-card {
+    @apply border border-border rounded-2xl p-10 bg-white transition-all duration-300;
+  }
+
+  .pricing-card-featured {
+    @apply border-navy bg-navy text-white md:scale-[1.04] shadow-card-lg;
+  }
+}
+
+/* Smooth fade-up utility */
+.animate-in {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dash bar animation */
+.dash-fill {
+  animation: fillBar 1.4s ease forwards 0.3s;
+}
+
+@keyframes fillBar {
+  from { width: 0; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #1B4D6B; border-radius: 3px; }

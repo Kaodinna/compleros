@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "@/components/Logo";
 
 const navLinks = [
   { label: "Features", href: "/features" },
@@ -45,10 +46,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-heading text-[26px] font-semibold text-navy tracking-[-0.5px] hover:opacity-90 transition-opacity"
+            className="hover:opacity-90 transition-opacity"
             aria-label="Compleros home"
           >
-            Compler<span className="text-gold">os</span>
+            <Logo variant="navy" height={56} />
           </Link>
 
           {/* Desktop Nav */}
@@ -73,13 +74,13 @@ export default function Navbar() {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
             <Link
-              href="/contact"
+              href="/login"
               className="text-sm font-semibold text-navy hover:text-navy-dark transition-colors duration-200 px-4 py-2"
             >
               Log In
             </Link>
             <Link
-              href="/pricing"
+              href="/signup"
               className="btn-primary text-sm !py-2.5 !px-5"
             >
               Start Free
@@ -131,13 +132,13 @@ export default function Navbar() {
           ))}
           <div className="pt-4 border-t border-border flex flex-col gap-3">
             <Link
-              href="/contact"
+              href="/login"
               className="text-sm font-semibold text-navy text-center py-2.5 border border-border rounded-btn hover:border-navy transition-colors"
             >
               Log In
             </Link>
             <Link
-              href="/pricing"
+              href="/signup"
               className="btn-primary text-center block"
             >
               Start Free

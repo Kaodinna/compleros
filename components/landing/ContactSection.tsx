@@ -8,6 +8,8 @@ const contactInfo = [
   { icon: "⏰", title: "Response Time", detail: "We respond within 24 hours on business days" },
 ];
 
+const subjects = ["General Inquiry", "Demo Request", "Partnership", "Press", "Other"];
+
 export default function ContactSection() {
   const [form, setForm] = useState({
     name: "",
@@ -16,10 +18,28 @@ export default function ContactSection() {
     message: "",
   });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setError("");
+    setLoading(true);
+
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    setLoading(false);
+
+    if (res.ok) {
+      setSent(true);
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error ?? "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -87,11 +107,7 @@ export default function ContactSection() {
                     onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
                     className="w-full px-4 py-3 border border-border rounded-btn text-[15px] font-body bg-white outline-none transition-colors focus:border-navy"
                   >
-                    <option>General Inquiry</option>
-                    <option>Demo Request</option>
-                    <option>Partnership</option>
-                    <option>Press</option>
-                    <option>Other</option>
+                    {subjects.map((s) => <option key={s}>{s}</option>)}
                   </select>
                 </div>
                 <div>
@@ -111,11 +127,15 @@ export default function ContactSection() {
                     className="w-full px-4 py-3 border border-border rounded-btn text-[15px] font-body bg-white outline-none transition-colors focus:border-navy placeholder:text-muted/50 resize-y min-h-[120px]"
                   />
                 </div>
+                {error && (
+                  <p className="text-[13px] text-danger">{error}</p>
+                )}
                 <button
                   type="submit"
-                  className="btn-primary w-full !py-3.5 !text-[15px]"
+                  disabled={loading}
+                  className="btn-primary w-full !py-3.5 !text-[15px] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {loading ? "Sending…" : "Send Message"}
                 </button>
               </form>
             )}

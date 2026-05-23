@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import Logo from "@/components/Logo";
+
 const platformLinks = [
   { label: "Features", href: "#features" },
   { label: "Pricing", href: "#pricing" },
@@ -28,13 +31,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr] gap-12 mb-16">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <a
-              href="#"
-              className="font-heading text-[24px] font-semibold text-white tracking-[-0.5px] hover:opacity-90 transition-opacity block mb-5"
+            <Link
+              href="/"
+              className="hover:opacity-90 transition-opacity inline-block mb-5"
               aria-label="Compleros home"
             >
-              Compler<span className="text-gold-light">os</span>
-            </a>
+              <Logo variant="white" height={52} />
+            </Link>
             <p className="text-[14px] text-white/50 leading-[1.7] max-w-[300px] mb-6">
               Compliance management built for Florida&apos;s education
               providers. Track licenses, manage credentials, and stay

@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Header from "@/components/dashboard/Header";
-import Link from "next/link";
+import SeePlansButton from "@/components/dashboard/SeePlansButton";
 
 interface Update {
   id: string; title: string; summary: string; source_agency: string;
@@ -21,7 +21,7 @@ export default async function UpdatesPage() {
   return (
     <>
       <Header title="Regulatory Updates" />
-      <div className="p-[24px_28px] space-y-3">
+      <div className="p-4 sm:p-[24px_28px] space-y-3">
 
         {/* Filter Bar — locked */}
         <div className="flex gap-2.5 mb-5 items-center">
@@ -64,15 +64,15 @@ export default async function UpdatesPage() {
         })}
 
         {/* Gate */}
-        <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[18px] py-3.5 flex items-center gap-3 mt-4">
+        <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[18px] py-3.5 flex flex-wrap items-center gap-3 mt-4">
           <span className="text-[16px]">🔒</span>
-          <div className="flex-1">
+          <div className="flex-1 min-w-[180px]">
             <h4 className="text-[13px] font-semibold text-navy">Legislative Change Alerts</h4>
             <p className="text-[12px] text-muted">Track bills like SB 218 that directly affect your compliance. Available on Basic.</p>
           </div>
-          <Link href="/pricing" className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
+          <SeePlansButton className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
             See Plans
-          </Link>
+          </SeePlansButton>
         </div>
       </div>
     </>

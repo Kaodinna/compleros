@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
 import Link from "next/link";
+import SeePlansButton from "@/components/dashboard/SeePlansButton";
 
 const STAFF_ROLES = ["Director", "Lead Teacher", "Assistant Teacher", "Admin Staff", "Other"];
 const FREE_LIMIT = 5;
@@ -79,7 +80,7 @@ export default function StaffPage() {
   return (
     <>
       <Header title="Staff Profiles" />
-      <div className="p-[24px_28px] space-y-5">
+      <div className="p-4 sm:p-[24px_28px] space-y-5">
 
         {/* Top bar */}
         <div className="flex items-center justify-between">
@@ -138,20 +139,20 @@ export default function StaffPage() {
         )}
 
         {/* Gate */}
-        <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[18px] py-3.5 flex items-center gap-3">
+        <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[18px] py-3.5 flex flex-wrap items-center gap-3">
           <span className="text-[16px]">🔒</span>
-          <div className="flex-1">
+          <div className="flex-1 min-w-[180px]">
             <h4 className="text-[13px] font-semibold text-navy">Track Staff Credentials & Expiration Dates</h4>
             <p className="text-[12px] text-muted">Monitor CPR certs, background screenings, training hours, and more. Available on Basic.</p>
           </div>
-          <Link href="/pricing" className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
+          <SeePlansButton className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
             See Plans
-          </Link>
+          </SeePlansButton>
         </div>
 
         {atLimit && (
           <div className="text-center text-[12px] text-muted">
-            Staff limit reached (5/5). <Link href="/pricing" className="text-gold font-semibold hover:text-[#A87D42]">Upgrade for unlimited staff →</Link>
+            Staff limit reached (5/5). <SeePlansButton className="text-gold font-semibold hover:text-[#A87D42]">Upgrade for unlimited staff →</SeePlansButton>
           </div>
         )}
       </div>

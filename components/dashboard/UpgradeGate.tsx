@@ -1,4 +1,4 @@
-import Link from "next/link";
+import SeePlansButton from "./SeePlansButton";
 
 interface UpgradeGateProps {
   feature: string;
@@ -16,12 +16,9 @@ export default function UpgradeGate({ feature, tier = "Basic", className = "" }:
         <p className="text-[13px] font-semibold text-navy">{feature}</p>
         <p className="text-[11px] text-muted">Available on {tier}. Upgrade to unlock.</p>
       </div>
-      <Link
-        href="/pricing"
-        className="shrink-0 text-[11px] font-semibold text-gold border border-gold/40 px-3 py-1.5 rounded-btn hover:bg-gold hover:text-white transition-colors"
-      >
+      <SeePlansButton className="shrink-0 text-[11px] font-semibold text-gold border border-gold/40 px-3 py-1.5 rounded-btn hover:bg-gold hover:text-white transition-colors">
         See Plans
-      </Link>
+      </SeePlansButton>
     </div>
   );
 }

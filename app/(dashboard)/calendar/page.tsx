@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
 import Link from "next/link";
+import SeePlansButton from "@/components/dashboard/SeePlansButton";
 
 interface License {
   id: string;
@@ -92,7 +93,7 @@ export default function CalendarPage() {
   return (
     <>
       <Header title="Compliance Calendar" />
-      <div className="p-[24px_28px]">
+      <div className="p-4 sm:p-[24px_28px]">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-5">
           {/* Calendar */}
           <div className="bg-white border border-[#E2DFD8] rounded-[12px] p-[22px]">
@@ -166,9 +167,9 @@ export default function CalendarPage() {
             </div>
 
             {/* Gate */}
-            <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[14px] py-2.5 flex items-center gap-3 mt-5">
+            <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[14px] py-2.5 flex flex-wrap items-center gap-3 mt-5">
               <span className="text-[16px]">🔒</span>
-              <div className="flex-1">
+              <div className="flex-1 min-w-[160px]">
                 <h4 className="text-[13px] font-semibold text-navy">
                   Set Up Automated Reminders
                 </h4>
@@ -176,12 +177,9 @@ export default function CalendarPage() {
                   Get email alerts at 30, 14, and 7 days before each deadline.
                 </p>
               </div>
-              <Link
-                href="/pricing"
-                className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors"
-              >
+              <SeePlansButton className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
                 See Plans
-              </Link>
+              </SeePlansButton>
             </div>
           </div>
 

@@ -1,8 +1,7 @@
 {
-  "/(dashboard)/staff/page": "app/(dashboard)/staff/page.js",
-  "/(dashboard)/updates/page": "app/(dashboard)/updates/page.js",
   "/(dashboard)/inspection/page": "app/(dashboard)/inspection/page.js",
-  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js",
   "/(dashboard)/documents/page": "app/(dashboard)/documents/page.js",
+  "/(dashboard)/staff/page": "app/(dashboard)/staff/page.js",
+  "/(dashboard)/documents/dcf-checklist/page": "app/(dashboard)/documents/dcf-checklist/page.js",
   "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js"
 }

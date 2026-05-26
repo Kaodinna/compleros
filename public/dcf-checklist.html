@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCF Facility License Application Checklist · Compleros</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --navy: #1B4D6B;
+    --navy-deep: #133A52;
+    --navy-light: #2A6A8F;
+    --navy-soft: #E8EEF2;
+    --cream: #F0EDE6;
+    --cream-warm: #F7F5F0;
+    --cream-deep: #E8E4DA;
+    --gold: #C4985A;
+    --gold-light: #D4B07A;
+    --gold-soft: #EFE4D0;
+    --white: #FFFFFF;
+    --text: #2D3748;
+    --text-mid: #475569;
+    --text-light: #64748B;
+    --text-faint: #94A3B8;
+    --border: #E5E1D8;
+    --border-soft: #EEEAE1;
+    --green: #2E7D32;
+    --green-bg: #E8F5E9;
+    --red: #B91C1C;
+    --shadow-sm: 0 1px 2px rgba(27,77,107,0.04), 0 1px 3px rgba(27,77,107,0.06);
+    --shadow-md: 0 4px 12px rgba(27,77,107,0.06), 0 2px 4px rgba(27,77,107,0.04);
+    --shadow-lg: 0 12px 32px rgba(27,77,107,0.10), 0 4px 12px rgba(27,77,107,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream-warm);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
+
+  /* ============ APP SHELL ============ */
+  .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+  .sidebar {
+    background: var(--navy);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 260px; height: 260px;
+    background: radial-gradient(circle, rgba(196,152,90,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .brand {
+    padding: 0 28px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 16px;
+  }
+  .brand-mark {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 30px;
+    color: var(--cream);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    display: block;
+  }
+  .brand-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    background: rgba(196,152,90,0.12);
+    border: 1px solid rgba(196,152,90,0.25);
+    padding: 3px 9px;
+    border-radius: 100px;
+  }
+
+  .nav-section { padding: 0 16px; margin-bottom: 20px; }
+  .nav-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); padding: 0 12px 10px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer; transition: all 0.18s;
+    text-decoration: none; margin-bottom: 2px;
+    position: relative;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+  .nav-item.active { background: rgba(196,152,90,0.14); color: var(--white); }
+  .nav-item.active::before {
+    content: ''; position: absolute; left: -16px; top: 8px; bottom: 8px;
+    width: 3px; background: var(--gold); border-radius: 0 3px 3px 0;
+  }
+  .nav-item.active .nav-icon { color: var(--gold-light); }
+  .nav-icon { width: 18px; height: 18px; stroke-width: 1.75; flex-shrink: 0; }
+
+  .sidebar-spacer { flex: 1; }
+
+  .user-widget {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; margin: 0 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 16px;
+  }
+  .user-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: var(--white);
+  }
+  .user-info { flex: 1; min-width: 0; }
+  .user-name { font-size: 13px; font-weight: 600; color: var(--white); line-height: 1.2; }
+  .user-plan { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* ============ MAIN ============ */
+  .main { background: var(--cream-warm); display: flex; flex-direction: column; min-width: 0; }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 68px;
+    display: flex; align-items: center; gap: 16px;
+    flex-shrink: 0;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-light); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    padding: 7px 10px; margin-left: -10px;
+    border-radius: 6px; transition: all 0.15s;
+  }
+  .back-link:hover { color: var(--navy); background: var(--cream-warm); }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-light); }
+  .breadcrumb .crumb-sep { color: var(--text-faint); }
+  .breadcrumb .crumb-current { color: var(--navy); font-weight: 600; max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ============ ACTION BAR (STICKY) ============ */
+  .action-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex; align-items: center; gap: 20px;
+    position: sticky; top: 0; z-index: 10;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .save-status {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    background: var(--green-bg);
+    border: 1px solid rgba(46,125,50,0.18);
+    border-radius: 100px;
+    font-size: 12.5px; font-weight: 600;
+    color: var(--green);
+  }
+  .save-status.saving { background: #FEF3C7; border-color: rgba(180,83,9,0.2); color: #B45309; }
+  .save-status svg { width: 13px; height: 13px; }
+
+  .progress-wrap { flex: 1; max-width: 280px; }
+  .progress-label {
+    display: flex; justify-content: space-between; margin-bottom: 5px;
+    font-size: 11px; font-weight: 600; color: var(--text-light);
+    letter-spacing: 0.3px;
+  }
+  .progress-label .progress-num { color: var(--navy); font-weight: 700; }
+  .progress-track {
+    height: 6px; background: var(--cream-deep); border-radius: 100px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 100px;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0%;
+  }
+
+  .action-spacer { flex: 1; }
+
+  .action-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 600; font-family: inherit;
+    cursor: pointer; transition: all 0.18s;
+    border: 1px solid transparent;
+    text-decoration: none;
+  }
+  .action-btn svg { width: 14px; height: 14px; stroke-width: 2; }
+  .action-btn.primary { background: var(--gold); color: var(--white); }
+  .action-btn.primary:hover { background: #B88A4E; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(196,152,90,0.3); }
+  .action-btn.secondary { background: var(--white); color: var(--navy); border-color: var(--border); }
+  .action-btn.secondary:hover { border-color: var(--navy); background: var(--navy-soft); }
+  .action-btn.ghost { background: transparent; color: var(--text-light); }
+  .action-btn.ghost:hover { color: var(--red); background: #FEE2E2; }
+
+  /* ============ PAGE ============ */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  /* ============ TEMPLATE HEADER ============ */
+  .template-hero {
+    margin-bottom: 36px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .template-eyebrow {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .template-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 38px; color: var(--navy);
+    line-height: 1.1; letter-spacing: -0.5px;
+    margin-bottom: 14px;
+  }
+  .template-intro {
+    font-size: 15.5px; color: var(--text-light);
+    line-height: 1.65; max-width: 740px;
+  }
+
+  .privacy-note {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 20px; padding: 9px 14px;
+    background: var(--cream-deep);
+    border-radius: 8px;
+    font-size: 12.5px; color: var(--text-mid);
+    font-weight: 500;
+  }
+  .privacy-note svg { color: var(--navy); width: 14px; height: 14px; flex-shrink: 0; }
+  .privacy-note strong { color: var(--navy); font-weight: 600; }
+
+  /* ============ PROGRAM INFO PANEL ============ */
+  .info-panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow-sm);
+  }
+  .info-panel-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .info-panel-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--navy-soft); color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .info-panel-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 20px; color: var(--navy); line-height: 1.1;
+  }
+
+  .field-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 20px;
+  }
+  .field {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .field.full { grid-column: 1 / -1; }
+  .field label {
+    font-size: 12px; font-weight: 600; color: var(--navy);
+    letter-spacing: 0.2px;
+  }
+  .field input, .field textarea {
+    background: var(--cream-warm);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px; font-family: inherit; color: var(--text);
+    transition: all 0.15s;
+  }
+  .field input:focus, .field textarea:focus {
+    outline: none;
+    background: var(--white);
+    border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(27,77,107,0.08);
+  }
+
+  /* ============ SECTION ============ */
+  .section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .section-head {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 20px;
+  }
+
+  .section-number-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 6px;
+  }
+  .section-number {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 14px; font-weight: 400;
+    color: var(--gold);
+    background: var(--gold-soft);
+    border-radius: 6px;
+    padding: 3px 10px;
+    letter-spacing: 1px;
+  }
+  .section-progress {
+    margin-left: auto;
+    font-size: 12px; font-weight: 600; color: var(--text-light);
+  }
+  .section-progress.complete { color: var(--green); }
+  .section-progress svg { width: 13px; height: 13px; vertical-align: -2px; margin-right: 3px; }
+
+  .section-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 22px; color: var(--navy); line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .section-intro {
+    font-size: 13.5px; color: var(--text-light); line-height: 1.55;
+    font-style: italic;
+  }
+
+  /* ============ CHECKLIST ITEM ============ */
+  .item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 14px; margin: 0 -14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .item:hover { background: var(--cream-warm); }
+  .item.checked .item-label { color: var(--text-light); text-decoration: line-through; text-decoration-color: var(--gold); text-decoration-thickness: 1.5px; }
+  .item.checked .item-note { color: var(--text-faint); }
+
+  .item-check {
+    width: 22px; height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+  }
+  .item:hover .item-check { border-color: var(--gold-light); }
+  .item.checked .item-check {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .item-check svg {
+    width: 14px; height: 14px; stroke-width: 3.5;
+    color: var(--white); opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .item.checked .item-check svg { opacity: 1; transform: scale(1); }
+
+  .item-content { flex: 1; min-width: 0; }
+  .item-label {
+    font-size: 14px; color: var(--text);
+    line-height: 1.45; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .item-note {
+    font-size: 12.5px; color: var(--text-light);
+    margin-top: 3px; line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* ============ SECTION NOTES ============ */
+  .notes-wrap {
+    margin-top: 18px; padding-top: 18px;
+    border-top: 1px dashed var(--border);
+  }
+  .notes-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--text-light);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .notes-label svg { width: 12px; height: 12px; }
+  .notes-field {
+    width: 100%;
+    background: var(--cream-warm);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13.5px; font-family: inherit; color: var(--text);
+    min-height: 60px; resize: vertical;
+    transition: all 0.15s;
+  }
+  .notes-field:focus {
+    outline: none; background: var(--white);
+    border-color: var(--navy-light);
+    box-shadow: 0 0 0 3px rgba(27,77,107,0.08);
+  }
+
+  /* ============ CALLOUT ============ */
+  .callout {
+    background: linear-gradient(120deg, var(--cream) 0%, var(--cream-warm) 100%);
+    border: 1px solid rgba(196,152,90,0.3);
+    border-left: 4px solid var(--gold);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 36px;
+  }
+  .callout-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .callout-body {
+    font-size: 14.5px; color: var(--navy-deep); line-height: 1.6;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(19,58,82,0.5);
+    backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 100;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .modal-backdrop.open { display: flex; opacity: 1; }
+  .modal {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 28px;
+    max-width: 420px; width: calc(100% - 32px);
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.96);
+    transition: transform 0.2s;
+  }
+  .modal-backdrop.open .modal { transform: scale(1); }
+  .modal-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 22px; color: var(--navy); margin-bottom: 10px;
+  }
+  .modal-body { font-size: 14px; color: var(--text-light); line-height: 1.55; margin-bottom: 24px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+  /* ============ PRINT/PDF VIEW (HIDDEN) ============ */
+  #print-view {
+    display: none;
+    position: absolute; left: -9999px;
+    width: 780px; /* ~8.5" at 96dpi minus margins */
+    background: var(--white);
+    padding: 40px 50px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+  }
+  #print-view * { box-sizing: border-box; }
+
+  .pv-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-bottom: 14px; border-bottom: 2px solid var(--gold);
+    margin-bottom: 24px;
+  }
+  .pv-brand {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 28px; color: var(--navy); line-height: 1;
+  }
+  .pv-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 4px; }
+  .pv-doctitle { font-family: 'DM Serif Display', Georgia, serif; font-size: 20px; color: var(--navy); line-height: 1.15; text-align: right; }
+
+  .pv-intro { font-size: 12px; color: var(--text); line-height: 1.5; margin-bottom: 20px; }
+
+  .pv-info-grid { display: grid; grid-template-columns: 180px 1fr; gap: 0; margin-bottom: 24px; border: 1px solid #D5D5D5; }
+  .pv-info-label { background: var(--cream); padding: 8px 12px; font-size: 11px; font-weight: 700; color: var(--navy); border-bottom: 1px solid #D5D5D5; border-right: 1px solid #D5D5D5; }
+  .pv-info-value { padding: 8px 12px; font-size: 12px; color: var(--text); border-bottom: 1px solid #D5D5D5; min-height: 32px; }
+  .pv-info-label:last-of-type, .pv-info-value:last-of-type { border-bottom: none; }
+
+  .pv-section { margin-bottom: 22px; page-break-inside: avoid; }
+  .pv-section-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 14px; color: var(--navy); text-transform: uppercase; letter-spacing: 1px;
+    padding-bottom: 6px; border-bottom: 1.5px solid var(--gold);
+    margin-bottom: 10px;
+  }
+  .pv-section-intro { font-size: 11px; color: var(--text-light); font-style: italic; margin-bottom: 8px; }
+  .pv-item { display: flex; gap: 8px; padding: 3px 0; font-size: 11px; line-height: 1.4; }
+  .pv-checkbox { font-family: monospace; color: var(--navy); flex-shrink: 0; font-weight: 700; }
+  .pv-item-content { flex: 1; }
+  .pv-item-label { color: var(--text); }
+  .pv-item.done .pv-item-label { color: var(--text-light); }
+  .pv-item-note { color: var(--text-light); font-style: italic; font-size: 10px; margin-top: 1px; }
+  .pv-notes { margin-top: 8px; padding: 8px 10px; background: var(--cream); font-size: 10.5px; color: var(--text); border-left: 2px solid var(--gold); }
+  .pv-notes-label { font-size: 9px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
+
+  .pv-footer {
+    margin-top: 30px; padding-top: 12px;
+    border-top: 2px solid var(--gold);
+    display: flex; justify-content: space-between;
+    font-size: 9px; color: var(--text-light);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1100px) {
+    .app { grid-template-columns: 70px 1fr; }
+    .brand-mark { font-size: 0; }
+    .brand-mark::before { content: 'C'; font-size: 28px; color: var(--cream); }
+    .brand-tag, .nav-label, .nav-item span, .user-info { display: none; }
+    .nav-item { justify-content: center; padding: 12px; }
+    .user-widget { justify-content: center; padding: 12px 0; }
+  }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .page { padding: 24px 20px 60px; }
+    .template-title { font-size: 28px; }
+    .action-bar { padding: 12px 20px; flex-wrap: wrap; gap: 12px; }
+    .progress-wrap { order: 5; width: 100%; max-width: none; }
+    .topbar { padding: 0 20px; }
+    .field-grid { grid-template-columns: 1fr; }
+    .section { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR (unchanged from Templates page) -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">Compleros</span>
+      <span class="brand-tag">Free Plan</span>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Workspace</div>
+      <a class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Dashboard</span></a>
+      <a class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Staff</span></a>
+      <a class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg><span>Licenses &amp; Permits</span></a>
+      <a class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span>Regulatory Updates</span></a>
+      <a class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="M9 12l2 2 4-4"/></svg><span>Mock Inspection</span></a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Resources</div>
+      <a class="nav-item active" href="compleros_templates_page.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span>Templates</span></a>
+      <a class="nav-item"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="12" y1="10" x2="14" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="12" y1="14" x2="14" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg><span>Ratio Calculator</span></a>
+    </div>
+    <div class="sidebar-spacer"></div>
+    <div class="user-widget">
+      <div class="user-avatar">SD</div>
+      <div class="user-info">
+        <div class="user-name">Sunrise Learning Co.</div>
+        <div class="user-plan">Free · 1 location</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <a class="back-link" href="compleros_templates_page.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back
+      </a>
+      <div class="breadcrumb">
+        <span>Resources</span>
+        <span class="crumb-sep">/</span>
+        <span>Templates</span>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-current" id="breadcrumb-title">Loading…</span>
+      </div>
+    </header>
+
+    <!-- ACTION BAR -->
+    <div class="action-bar">
+      <div class="save-status" id="save-status">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="save-status-text">All changes saved</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Progress</span>
+          <span><span class="progress-num" id="progress-num">0</span> of <span id="progress-total">0</span> items</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <div class="action-spacer"></div>
+      <button class="action-btn ghost" onclick="openResetModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Start Over
+      </button>
+      <button class="action-btn secondary" onclick="downloadBlankDocx()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Blank DOCX
+      </button>
+      <button class="action-btn primary" onclick="downloadPDF()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </button>
+    </div>
+
+    <!-- PAGE -->
+    <div class="page">
+
+      <!-- TEMPLATE HERO -->
+      <div class="template-hero">
+        <div class="template-eyebrow" id="template-eyebrow">Compliance Template</div>
+        <h1 class="template-title" id="template-title">Loading…</h1>
+        <p class="template-intro" id="template-intro"></p>
+        <div class="privacy-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span><strong>Your work stays on this device.</strong> Compleros never sees or stores what you type here.</span>
+        </div>
+      </div>
+
+      <!-- PROGRAM INFO (RENDERED DYNAMICALLY) -->
+      <div class="info-panel" id="info-panel"></div>
+
+      <!-- SECTIONS (RENDERED DYNAMICALLY) -->
+      <div id="sections-container"></div>
+
+      <!-- CALLOUT -->
+      <div class="callout" id="callout"></div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- RESET MODAL -->
+<div class="modal-backdrop" id="reset-modal">
+  <div class="modal">
+    <h3 class="modal-title">Start over?</h3>
+    <p class="modal-body">This will clear every field and checkbox on this template. The data on this device will be erased. This can't be undone.</p>
+    <div class="modal-actions">
+      <button class="action-btn secondary" onclick="closeResetModal()">Cancel</button>
+      <button class="action-btn primary" style="background: var(--red)" onclick="confirmReset()">Yes, start over</button>
+    </div>
+  </div>
+</div>
+
+<!-- HIDDEN PRINT VIEW (populated before PDF generation) -->
+<div id="print-view"></div>
+
+<script>
+/* ============================================================
+ * COMPLEROS INTERACTIVE TEMPLATE SCAFFOLD
+ * ------------------------------------------------------------
+ * To wire a new template: replace TEMPLATE_DATA below with the
+ * template's structure. All rendering, state, save/load, and
+ * PDF export flow through the same pipeline.
+ * ============================================================ */
+
+const TEMPLATE_DATA = {
+  id: 'dcf-license-checklist',
+  docId: 'CMP-TMP-DCF-001',
+  eyebrow: 'Licensing & Application Template',
+  title: 'DCF Facility License Application Checklist',
+  intro: 'Work through each section before submitting your application to the Florida Department of Children and Families (DCF). Every item maps to a requirement under Chapter 402, F.S., Rule 65C-22, F.A.C., and the CF-FSP 5017 application form. Check items off as you assemble your application package — a complete submission moves faster through DCF review.',
+  programInfo: {
+    title: 'Program Information',
+    fields: [
+      { id: 'programName', label: 'Program Name (as it will appear on license)', type: 'text', full: true },
+      { id: 'applicationType', label: 'Application Type (Initial / Renewal / Change of Ownership)', type: 'text' },
+      { id: 'licenseNumber', label: 'License Number (renewals only)', type: 'text' },
+      { id: 'physicalAddress', label: 'Physical Address of Facility', type: 'text', full: true },
+      { id: 'county', label: 'County', type: 'text' },
+      { id: 'maxCapacity', label: 'Maximum Capacity', type: 'text' },
+      { id: 'ownershipType', label: 'Ownership Type (Individual / Corporation / LLC / Partnership / Other Entity)', type: 'text' },
+      { id: 'directorName', label: 'Director / Owner Name', type: 'text' },
+      { id: 'targetDate', label: 'Target Submission Date', type: 'date' }
+    ]
+  },
+  sections: [
+    {
+      id: 's1', number: 1, title: 'Application Forms, Fees & Program Details',
+      intro: 'Core application documents required for CF-FSP 5017. Maps to Parts 1 and 2 of the DCF form.',
+      items: [
+        { id: '1-1', label: 'CF-FSP Form 5017 — completed in blue or black ink, no white-out', note: 'Download from myflfamilies.com — signed and dated by owner, director, or designated representative' },
+        { id: '1-2', label: 'Annual license fee payment', note: 'Check or money order payable to the Department of Children and Families' },
+        { id: '1-3', label: 'Federal Employer Identification Number (EIN) documentation' },
+        { id: '1-4', label: 'Maximum capacity determined and entered on application', note: 'Based on indoor square footage per F.A.C. 65C-22.002(1) — 35 sq. ft. per child' },
+        { id: '1-5', label: 'Program designations selected (Faith Based, Head Start, VPK, School Readiness, etc.)', note: 'Part 1 of CF-FSP 5017 — check all that apply to your program' },
+        { id: '1-6', label: 'Service options declared (Full Day, Before/After School, Infant Care, Transportation, etc.)', note: 'Part 1 of CF-FSP 5017 — check all service types you will offer' },
+        { id: '1-7', label: 'Days, hours, and months of operation documented' },
+        { id: '1-8', label: 'For renewals: application submitted at least 45 days before license expiration', note: 'Failure to submit 45 days prior is a licensing violation under Rule 65C-22.010(2)(c), F.A.C.' }
+      ]
+    },
+    {
+      id: 's2', number: 2, title: 'Ownership Documentation',
+      intro: 'Required documents depend on your ownership type. Complete the section that applies per Part 2 of CF-FSP 5017.',
+      items: [
+        { id: '2-1', label: 'Individual Ownership — owner name, DOB, SSN, home address on form (Sections A + F)', note: 'One owner only. Complete Section A on CF-FSP 5017.' },
+        { id: '2-2', label: 'Corporation — Articles of Incorporation with Board of Directors names and registered agent', note: 'Initial: Articles of Incorporation. Renewal: current Certificate of Status from SunBiz.org. Complete Sections B + F.' },
+        { id: '2-3', label: 'LLC — Articles of Organization with member names and registered agent', note: 'Initial: Articles of Organization. Renewal: current Certificate of Status from SunBiz.org. Complete Sections C + F.' },
+        { id: '2-4', label: 'Partnership — copy of Partnership Agreement (submit annually)', note: 'Attach additional sheets if more than two partners. Complete Sections D + F.' },
+        { id: '2-5', label: 'Other Entity — entity name, designated representative, and entity address', note: 'School Boards, municipalities, before/after school programs, faith-based orgs. Complete Sections E + F.' },
+        { id: '2-6', label: 'On-site Director information completed (Section F — required for all applicants)', note: 'Director name, DOB, SSN, home address, credential, and cell phone number' },
+        { id: '2-7', label: 'If facility is in or adjacent to the owner/operator home: household member list with names and DOBs attached', note: 'All household members must complete Level 2 background screening' }
+      ]
+    },
+    {
+      id: 's3', number: 3, title: 'Facility & Premises',
+      intro: 'Documentation proving the physical location meets all state and local requirements.',
+      items: [
+        { id: '3-1', label: 'Proof of ownership or current lease agreement', note: 'Lease must cover the full license period' },
+        { id: '3-2', label: 'Floor plan of the facility', note: 'Include square footage per room, indoor play space, and outdoor play area' },
+        { id: '3-3', label: 'Local zoning approval or compliance letter', note: 'Obtain approval from local zoning and building code offices prior to submission' },
+        { id: '3-4', label: 'Current local fire inspection report', note: 'Must be dated within the last 12 months and show satisfactory status' },
+        { id: '3-5', label: 'Current environmental / sanitation inspection report', note: 'Issued by the county health department' },
+        { id: '3-6', label: 'Playground safety inspection (if applicable)' },
+        { id: '3-7', label: 'Water quality testing results (if on well water)' }
+      ]
+    },
+    {
+      id: 's4', number: 4, title: 'Staff & Personnel',
+      intro: 'Credentials, screenings, and training documentation for every staff member.',
+      items: [
+        { id: '4-1', label: 'Director credential documentation', note: 'Florida Director Credential or National Administrator Credential (NAC)' },
+        { id: '4-2', label: 'Level 2 background screening results — all staff', note: 'Fingerprinting through the Clearinghouse; renewed every 5 years per s. 402.305(2), F.S.' },
+        { id: '4-3', label: 'Level 2 background screening — volunteers and household members (if applicable)' },
+        { id: '4-4', label: 'Proof of 45-hour DCF Introductory Child Care Training', note: 'Or signed enrollment agreement within required timeframe' },
+        { id: '4-5', label: 'Staff emergency contact and health information forms' },
+        { id: '4-6', label: 'Staffing plan showing compliance with age-group ratios', note: 'Refer to F.A.C. 65C-22.001(4) for required staff-to-child ratios' },
+        { id: '4-7', label: '10-hour in-service training plan' },
+        { id: '4-8', label: 'Child enrichment service provider screening (if applicable)', note: 'Per s. 402.3054, F.S. — Level 2 screening using Chapter 435 standards. Written parental consent required before child participates.' }
+      ]
+    },
+    {
+      id: 's5', number: 5, title: 'Health & Safety',
+      intro: 'Operating procedures that protect children while in your care.',
+      items: [
+        { id: '5-1', label: 'Written emergency preparedness plan (fire, weather, lockdown)' },
+        { id: '5-2', label: 'Posted evacuation routes and emergency contact information' },
+        { id: '5-3', label: 'First aid supplies and posted CPR/first aid certifications' },
+        { id: '5-4', label: 'Written medication administration policy' },
+        { id: '5-5', label: 'Written discipline policy (must prohibit corporal punishment)' },
+        { id: '5-6', label: 'Written policy on the release of children (authorized pickup)' },
+        { id: '5-7', label: 'Documented daily health check procedures' },
+        { id: '5-8', label: 'Transportation safety plan (if transporting children)', note: 'Includes vehicle inspection records and driver license/background verification' }
+      ]
+    },
+    {
+      id: 's6', number: 6, title: 'Enrollment & Records',
+      intro: 'Record-keeping systems and forms used for enrolled children.',
+      items: [
+        { id: '6-1', label: 'Enrollment form template' },
+        { id: '6-2', label: 'Immunization record (DH Form 680) collection procedure', note: 'Required before first day of attendance per F.S. 1003.22' },
+        { id: '6-3', label: 'Student health exam record (DH Form 3040) collection procedure' },
+        { id: '6-4', label: 'Emergency contact and authorized pickup form per child' },
+        { id: '6-5', label: 'Parental consent forms (photo, field trips, sunscreen, transportation)' },
+        { id: '6-6', label: 'Daily attendance tracking system' },
+        { id: '6-7', label: 'Incident/accident reporting form and log' }
+      ]
+    },
+    {
+      id: 's7', number: 7, title: 'Insurance & Financial',
+      intro: 'Financial and liability documentation required for operation.',
+      items: [
+        { id: '7-1', label: 'Certificate of general liability insurance' },
+        { id: '7-2', label: 'Proof of vehicle insurance (if transporting children)' },
+        { id: '7-3', label: "Workers' compensation coverage (if required by employee count)" },
+        { id: '7-4', label: 'Parent fee schedule and written enrollment agreement template' }
+      ]
+    },
+    {
+      id: 's8', number: 8, title: 'Attestations & Compliance Declarations',
+      intro: 'Signed declarations required in Part 3 of CF-FSP 5017. These are legal attestations — review each before signing.',
+      items: [
+        { id: '8-1', label: 'Mandated reporter affidavit — all child care personnel comply with s. 39.201, F.S.', note: 'Signed affidavit confirming all staff meet mandatory reporting requirements' },
+        { id: '8-2', label: 'Background screening attestation — compliance with Chapter 435, F.S.', note: 'Signed under penalty of perjury confirming all personnel have completed required screenings' },
+        { id: '8-3', label: 'Rilya Wilson Act acknowledgment — receipt confirmed per s. 39.604, F.S.', note: 'Acknowledges reporting requirements and educational stability provisions' },
+        { id: '8-4', label: 'HIPAA compliance acknowledgment — signature confirms commitment to protect health record confidentiality', note: 'Covers employee and children\'s health records in your possession' },
+        { id: '8-5', label: 'Disclosure: owner/applicant/director has never had a license denied, revoked, or suspended', note: 'If yes, explanation must be attached. Truthfulness attested under penalty of perjury.' },
+        { id: '8-6', label: 'Disclosure: prior licenses held with any state agency (other than driver\'s license)', note: 'If yes, provide state, license type, number, and name used' },
+        { id: '8-7', label: 'Outstanding fines from prior licensing actions paid in full', note: 'License issuance or renewal is contingent on payment of any uncontested or affirmed fines' }
+      ]
+    },
+    {
+      id: 's9', number: 9, title: 'Final Review Before Submission',
+      intro: 'Last-mile quality check before handing off to DCF.',
+      items: [
+        { id: '9-1', label: 'All forms completed in blue or black ink — no white-out used', note: 'Strikethroughs must be initialed. White-out will result in the application being returned.' },
+        { id: '9-2', label: 'All attestation pages signed and dated by applicant' },
+        { id: '9-3', label: 'Ownership-specific sections completed (only the section that applies)' },
+        { id: '9-4', label: 'Section F (On-site Director) completed regardless of ownership type' },
+        { id: '9-5', label: 'All supporting documents attached and organized' },
+        { id: '9-6', label: 'Copies made of the complete application package for internal records' },
+        { id: '9-7', label: 'Submission method confirmed (mail, in-person, or DCF online portal)' },
+        { id: '9-8', label: 'Licensing counselor contact information on file for follow-up', note: 'DCF has 30 days to notify you of errors/omissions and 90 days to approve or deny once the application is complete.' }
+      ]
+    }
+  ],
+  callout: {
+    eyebrow: 'Track this in Compleros',
+    body: 'Once your license is issued, add it to Compleros to monitor its renewal date, track staff credentials and background screenings against expiration, and stay ahead of every regulatory change affecting your program. Never wonder if you are compliant.'
+  }
+};
+
+/* ============================================================
+ * STATE (localStorage-backed with in-memory fallback)
+ * ============================================================ */
+const STORAGE_KEY = `compleros-template-${TEMPLATE_DATA.id}`;
+let state = { programInfo: {}, checked: {}, notes: {} };
+let memoryOnlyMode = false;
+let saveTimer = null;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) state = Object.assign({ programInfo: {}, checked: {}, notes: {} }, JSON.parse(raw));
+  } catch (e) {
+    memoryOnlyMode = true;
+    console.warn('localStorage unavailable — using in-memory state only.');
+  }
+}
+
+function saveState() {
+  if (memoryOnlyMode) return;
+  showSaveStatus('saving');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      showSaveStatus('saved');
+    } catch (e) {
+      memoryOnlyMode = true;
+      showSaveStatus('saved');
+    }
+  }, 300);
+}
+
+function showSaveStatus(mode) {
+  const el = document.getElementById('save-status');
+  const txt = document.getElementById('save-status-text');
+  if (mode === 'saving') {
+    el.classList.add('saving');
+    txt.textContent = 'Saving…';
+  } else {
+    el.classList.remove('saving');
+    txt.textContent = memoryOnlyMode ? 'Session only' : 'All changes saved';
+  }
+}
+
+/* ============================================================
+ * RENDER
+ * ============================================================ */
+function renderTemplate() {
+  // Hero
+  document.getElementById('template-eyebrow').textContent = TEMPLATE_DATA.eyebrow;
+  document.getElementById('template-title').textContent = TEMPLATE_DATA.title;
+  document.getElementById('template-intro').textContent = TEMPLATE_DATA.intro;
+  document.getElementById('breadcrumb-title').textContent = TEMPLATE_DATA.title;
+  document.title = `${TEMPLATE_DATA.title} · Compleros`;
+
+  // Program info panel
+  const panel = document.getElementById('info-panel');
+  panel.innerHTML = `
+    <div class="info-panel-head">
+      <div class="info-panel-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="info-panel-title">${escapeHtml(TEMPLATE_DATA.programInfo.title)}</div>
+    </div>
+    <div class="field-grid">
+      ${TEMPLATE_DATA.programInfo.fields.map(f => `
+        <div class="field${f.full ? ' full' : ''}">
+          <label for="pi-${f.id}">${escapeHtml(f.label)}</label>
+          <input type="${f.type}" id="pi-${f.id}" data-field="${f.id}" value="${escapeHtml(state.programInfo[f.id] || '')}" autocomplete="off">
+        </div>
+      `).join('')}
+    </div>
+  `;
+  panel.querySelectorAll('input[data-field]').forEach(input => {
+    input.addEventListener('input', e => {
+      state.programInfo[e.target.dataset.field] = e.target.value;
+      saveState();
+    });
+  });
+
+  // Sections
+  const container = document.getElementById('sections-container');
+  container.innerHTML = TEMPLATE_DATA.sections.map(section => `
+    <section class="section" data-section-id="${section.id}">
+      <div class="section-head">
+        <div class="section-number-row">
+          <span class="section-number">Section ${section.number}</span>
+          <span class="section-progress" data-section-progress="${section.id}">0 / ${section.items.length}</span>
+        </div>
+        <h2 class="section-title">${escapeHtml(section.title)}</h2>
+        <p class="section-intro">${escapeHtml(section.intro)}</p>
+      </div>
+      ${section.items.map(item => `
+        <div class="item${state.checked[item.id] ? ' checked' : ''}" data-item-id="${item.id}" role="checkbox" tabindex="0" aria-checked="${state.checked[item.id] ? 'true' : 'false'}">
+          <div class="item-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="item-content">
+            <div class="item-label">${escapeHtml(item.label)}</div>
+            ${item.note ? `<div class="item-note">${escapeHtml(item.note)}</div>` : ''}
+          </div>
+        </div>
+      `).join('')}
+      <div class="notes-wrap">
+        <label class="notes-label" for="notes-${section.id}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Notes for this section
+        </label>
+        <textarea class="notes-field" id="notes-${section.id}" data-notes-id="${section.id}" placeholder="Add your own notes — reminders, deadlines, or documents you're still waiting on…">${escapeHtml(state.notes[section.id] || '')}</textarea>
+      </div>
+    </section>
+  `).join('');
+
+  // Bind item toggles
+  container.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('click', () => toggleItem(item));
+    item.addEventListener('keydown', e => {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleItem(item); }
+    });
+  });
+
+  // Bind notes
+  container.querySelectorAll('textarea[data-notes-id]').forEach(t => {
+    t.addEventListener('input', e => {
+      state.notes[e.target.dataset.notesId] = e.target.value;
+      saveState();
+    });
+  });
+
+  // Callout
+  document.getElementById('callout').innerHTML = `
+    <div class="callout-eyebrow">${escapeHtml(TEMPLATE_DATA.callout.eyebrow)}</div>
+    <div class="callout-body">${escapeHtml(TEMPLATE_DATA.callout.body)}</div>
+  `;
+
+  updateProgress();
+  showSaveStatus('saved');
+}
+
+function toggleItem(itemEl) {
+  const id = itemEl.dataset.itemId;
+  state.checked[id] = !state.checked[id];
+  itemEl.classList.toggle('checked', !!state.checked[id]);
+  itemEl.setAttribute('aria-checked', state.checked[id] ? 'true' : 'false');
+  updateProgress();
+  saveState();
+}
+
+/* ============================================================
+ * PROGRESS
+ * ============================================================ */
+function updateProgress() {
+  const allItems = TEMPLATE_DATA.sections.flatMap(s => s.items);
+  const total = allItems.length;
+  const done = allItems.filter(i => state.checked[i.id]).length;
+  const pct = total ? (done / total) * 100 : 0;
+  document.getElementById('progress-num').textContent = done;
+  document.getElementById('progress-total').textContent = total;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  TEMPLATE_DATA.sections.forEach(s => {
+    const sDone = s.items.filter(i => state.checked[i.id]).length;
+    const el = document.querySelector(`[data-section-progress="${s.id}"]`);
+    if (el) {
+      el.textContent = `${sDone} / ${s.items.length}`;
+      el.classList.toggle('complete', sDone === s.items.length);
+      if (sDone === s.items.length) {
+        el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Complete`;
+      }
+    }
+  });
+}
+
+/* ============================================================
+ * PDF EXPORT
+ * ============================================================ */
+function buildPrintHTML() {
+  const programRows = TEMPLATE_DATA.programInfo.fields.map(f => `
+    <div class="pv-info-label">${escapeHtml(f.label)}</div>
+    <div class="pv-info-value">${escapeHtml(state.programInfo[f.id] || '')}</div>
+  `).join('');
+
+  const sectionHTML = TEMPLATE_DATA.sections.map(section => {
+    const itemsHTML = section.items.map(item => `
+      <div class="pv-item${state.checked[item.id] ? ' done' : ''}">
+        <span class="pv-checkbox">${state.checked[item.id] ? '☒' : '☐'}</span>
+        <div class="pv-item-content">
+          <div class="pv-item-label">${escapeHtml(item.label)}</div>
+          ${item.note ? `<div class="pv-item-note">${escapeHtml(item.note)}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    const notes = state.notes[section.id];
+    const notesHTML = notes && notes.trim() ? `
+      <div class="pv-notes">
+        <div class="pv-notes-label">Notes</div>
+        <div>${escapeHtml(notes).replace(/\n/g, '<br>')}</div>
+      </div>
+    ` : '';
+    return `
+      <div class="pv-section">
+        <div class="pv-section-title">${section.number}. ${escapeHtml(section.title)}</div>
+        <div class="pv-section-intro">${escapeHtml(section.intro)}</div>
+        ${itemsHTML}
+        ${notesHTML}
+      </div>
+    `;
+  }).join('');
+
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  return `
+    <div class="pv-header">
+      <div>
+        <div class="pv-brand">Compleros</div>
+      </div>
+      <div>
+        <div class="pv-eyebrow">Compliance Template</div>
+        <div class="pv-doctitle">${escapeHtml(TEMPLATE_DATA.title)}</div>
+      </div>
+    </div>
+    <div class="pv-intro">${escapeHtml(TEMPLATE_DATA.intro)}</div>
+    <div class="pv-info-grid">${programRows}</div>
+    ${sectionHTML}
+    <div class="pv-footer">
+      <span>${escapeHtml(TEMPLATE_DATA.docId)} &nbsp;·&nbsp; Generated ${today}</span>
+      <span>Compleros · Compliance Management for Florida Education Providers</span>
+    </div>
+  `;
+}
+
+async function downloadPDF() {
+  const btn = event.currentTarget;
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg> Generating…';
+  btn.disabled = true;
+
+  const printView = document.getElementById('print-view');
+  printView.innerHTML = buildPrintHTML();
+  printView.style.display = 'block';
+
+  const filename = `Compleros_${TEMPLATE_DATA.id.replace(/-/g, '_')}_${new Date().toISOString().slice(0,10)}.pdf`;
+
+  try {
+    await html2pdf().from(printView).set({
+      margin: [12, 12, 12, 12],
+      filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    }).save();
+  } catch (err) {
+    alert('Sorry, PDF generation failed. Please try again.');
+    console.error(err);
+  } finally {
+    printView.style.display = 'none';
+    printView.innerHTML = '';
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+  }
+}
+
+function downloadBlankDocx() {
+  // In production Bubble implementation, this links to the static blank DOCX
+  // hosted alongside the template record. For the scaffold, we route to the
+  // existing file produced by the docx skill.
+  window.location.href = 'Compleros_DCF_License_Application_Checklist.docx';
+}
+
+/* ============================================================
+ * RESET
+ * ============================================================ */
+function openResetModal() {
+  document.getElementById('reset-modal').classList.add('open');
+}
+function closeResetModal() {
+  document.getElementById('reset-modal').classList.remove('open');
+}
+function confirmReset() {
+  state = { programInfo: {}, checked: {}, notes: {} };
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  closeResetModal();
+  renderTemplate();
+}
+
+/* ============================================================
+ * UTIL
+ * ============================================================ */
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+/* ============================================================
+ * INIT
+ * ============================================================ */
+loadState();
+renderTemplate();
+</script>
+</body>
+</html>

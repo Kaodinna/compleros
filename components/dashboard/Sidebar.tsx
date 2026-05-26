@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
+import { useNav } from "./nav-context";
+import { usePricing } from "./pricing-context";
 import type { User } from "@supabase/supabase-js";
 
 const navGroups = [
@@ -36,6 +38,8 @@ const navGroups = [
 export default function DashboardSidebar({ user }: { user: User }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { open, close } = useNav();
+  const { open: openPricing } = usePricing();
 
   const signOut = async () => {
     const supabase = createClient();
@@ -51,12 +55,23 @@ export default function DashboardSidebar({ user }: { user: User }) {
     href === "/dashboard" ? pathname === "/dashboard" : pathname === href || pathname.startsWith(href + "/");
 
   return (
-    <aside className="hidden lg:flex flex-col w-[248px] shrink-0 bg-[#143A52] min-h-screen sticky top-0 h-screen overflow-y-auto">
-      {/* Logo */}
-      <div className="px-5 py-[18px] border-b border-white/[0.07]">
-        <Link href="/dashboard">
+    <aside
+      className={`flex flex-col w-[248px] shrink-0 bg-[#143A52] h-screen overflow-y-auto transition-transform duration-300 ease-in-out fixed lg:sticky top-0 left-0 z-50 lg:z-auto ${
+        open ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0`}
+    >
+      {/* Logo + mobile close */}
+      <div className="px-5 py-[18px] border-b border-white/[0.07] flex items-center justify-between">
+        <Link href="/dashboard" onClick={close}>
           <Logo variant="white" height={32} />
         </Link>
+        <button
+          onClick={close}
+          className="lg:hidden text-white/50 hover:text-white transition-colors p-1"
+          aria-label="Close navigation"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
 
       {/* Nav */}
@@ -72,6 +87,7 @@ export default function DashboardSidebar({ user }: { user: User }) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={close}
                   className={`flex items-center gap-2.5 py-[9px] px-3 mx-2 rounded-[7px] text-[13px] transition-all duration-100 ${
                     active
                       ? "bg-white/10 text-white font-semibold"
@@ -92,9 +108,9 @@ export default function DashboardSidebar({ user }: { user: User }) {
         <p className="text-[9px] uppercase tracking-[1px] text-[#D4AD74] font-bold">Current Plan</p>
         <p className="text-[13px] font-semibold text-white mt-0.5">Free (Starter)</p>
         <p className="text-[11px] text-white/35 mt-0.5">$0/month · Free forever</p>
-        <Link href="/pricing" className="text-[11px] text-[#D4AD74] hover:text-gold mt-1.5 block transition-colors">
+        <button type="button" onClick={openPricing} className="text-[11px] text-[#D4AD74] hover:text-gold mt-1.5 block transition-colors text-left">
           Compare Plans →
-        </Link>
+        </button>
       </div>
 
       {/* User */}

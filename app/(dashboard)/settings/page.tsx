@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Header from "@/components/dashboard/Header";
-import Link from "next/link";
+import SeePlansButton from "@/components/dashboard/SeePlansButton";
 
 type Tab = "account" | "program" | "billing" | "notifications";
 const PROGRAM_TYPES = ["Childcare Center", "Home-Based Childcare", "Microschool", "Private School", "VPK Provider", "Before/After School"];
@@ -102,7 +102,7 @@ export default function SettingsPage() {
   return (
     <>
       <Header title="Settings" />
-      <div className="p-[24px_28px]">
+      <div className="p-4 sm:p-[24px_28px]">
         <div className="max-w-[520px]">
 
           {/* Tab nav — underline style */}
@@ -216,9 +216,9 @@ export default function SettingsPage() {
                       {planType === "free" ? "1 license · 5 staff · 250 MB storage · 5 templates · Basic checklist" : "Full access"}
                     </div>
                   </div>
-                  <Link href="/pricing" className="block w-full bg-gold text-white rounded-[9px] py-3 text-[14px] font-semibold text-center hover:bg-[#A87D42] transition-colors">
+                  <SeePlansButton className="block w-full bg-gold text-white rounded-[9px] py-3 text-[14px] font-semibold text-center hover:bg-[#A87D42] transition-colors">
                     Compare Plans & Upgrade
-                  </Link>
+                  </SeePlansButton>
                 </div>
               )}
 

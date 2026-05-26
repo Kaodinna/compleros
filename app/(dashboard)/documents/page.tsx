@@ -4,23 +4,70 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
 import Link from "next/link";
+import SeePlansButton from "@/components/dashboard/SeePlansButton";
 
 const FREE_STORAGE_BYTES = 250 * 1024 * 1024;
 
 const FOLDERS = ["Licenses & Permits", "Staff Records", "Policies", "Other"];
 
-const FREE_TEMPLATES = [
-  { icon: "📋", name: "DCF Facility License Application Checklist", desc: "Step-by-step checklist for preparing your DCF license application." },
-  { icon: "👥", name: "Staff Credential Tracking Sheet", desc: "Spreadsheet template to manually track CPR, background check, and training status." },
-  { icon: "📞", name: "Emergency Contact Form", desc: "Parent-facing form for collecting emergency contact information." },
-  { icon: "✍️", name: "Parent Authorization Form", desc: "General-purpose authorization form for field trips, photos, and medical release." },
-  { icon: "🩺", name: "Daily Health Screening Log", desc: "Log for recording daily health checks per DCF/DOH requirements." },
+const FILE_BADGE: Record<"DOCX" | "XLSX" | "PDF", string> = {
+  DOCX: "bg-[#E8F1FB] text-[#1E5BAA]",
+  XLSX: "bg-[#E8F5EC] text-[#1F7A3D]",
+  PDF:  "bg-[#FBEAEA] text-[#B3261E]",
+};
+
+interface TemplateItem {
+  name: string;
+  fileType: "DOCX" | "XLSX" | "PDF";
+  meta: string;
+  desc: string;
+  href?: string;
+  icon: React.ReactNode;
+}
+
+const TEMPLATE_CATEGORIES: { label: string; desc: string; icon: React.ReactNode; templates: TemplateItem[] }[] = [
+  {
+    label: "Licensing & Application",
+    desc: "Get your facility licensed and stay ready for renewals",
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>,
+    templates: [
+      { name: "DCF Facility License Application Checklist", fileType: "DOCX" as const, meta: "3 pages · Updated Apr 2026", desc: "A section-by-section checklist covering everything DCF expects in a new license application — forms, facility docs, staff credentials, and operating policies.", href: "/documents/dcf-checklist", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> },
+    ],
+  },
+  {
+    label: "Staff Management",
+    desc: "Track credentials, screenings, and training in one place",
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+    templates: [
+      { name: "Staff Credential Tracking Sheet", fileType: "XLSX" as const, meta: "1 workbook · Updated Apr 2026", desc: "A ready-to-use spreadsheet for logging every staff member's credentials, Level 2 screenings, training hours, and upcoming renewal dates.", href: "/documents/staff-credential-tracker", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="14" x2="9" y2="18"/><line x1="13" y1="14" x2="13" y2="18"/><line x1="17" y1="14" x2="17" y2="18"/></svg> },
+    ],
+  },
+  {
+    label: "Family & Enrollment",
+    desc: "Forms families complete at enrollment and throughout the year",
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+    templates: [
+      { name: "Emergency Contact Form", fileType: "PDF" as const, meta: "2 pages · Fillable", desc: "A fillable PDF for parents to list emergency contacts, authorized pickups, and medical information. Required on file for every enrolled child.", href: "/documents/emergency-contact-form", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> },
+      { name: "Parent Authorization Form", fileType: "PDF" as const, meta: "2 pages · Fillable", desc: "A consent form covering photo release, field trips, sunscreen, emergency medical treatment, and transportation. One signature, every permission you need.", href: "/documents/parent-authorization-form", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> },
+    ],
+  },
+  {
+    label: "Daily Operations",
+    desc: "Enrollment tracking and operational compliance logs",
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+    templates: [
+      { name: "Enrollment Document Checklist", fileType: "XLSX" as const, meta: "Per-child tracker · Updated Apr 2026", desc: "Track which enrollment documents are on file for each child — emergency contacts, authorizations, immunizations, and more. Status only, no records stored.", href: "/documents/enrollment-document-checklist", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="M9 14l2 2 4-4"/></svg> },
+    ],
+  },
 ];
 
-const LOCKED_TEMPLATES = [
-  { icon: "🚨", name: "Incident & Accident Report", desc: "DCF-compliant incident report template. Available on Basic." },
-  { icon: "📊", name: "Staff-to-Child Ratio Worksheet", desc: "Daily ratio compliance calculator. Available on Basic." },
-  { icon: "📁", name: "+ 13 more templates", desc: "Policies, inspection prep, student records, and more. Available on Basic." },
+const LOCKED_TEMPLATE_CARDS = [
+  { name: "Mock DCF Inspection Scoring Worksheet", fileType: "DOCX" as const, meta: "8 pages", desc: "Full 88-item DCF inspection rubric with scoring logic, gap analysis, and remediation prompts — the same framework used in the Compleros mock inspection tool.", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"/><path d="M9 14l2 2 4-4"/></svg> },
+  { name: "Incident & Accident Report Form", fileType: "DOCX" as const, meta: "3 pages · Fillable", desc: "A DCF-compliant incident reporting template with parent notification, witness statements, and follow-up action tracking.", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> },
+  { name: "Fire Drill & Emergency Log", fileType: "DOCX" as const, meta: "12-month log", desc: "Monthly fire drill documentation plus emergency preparedness logs for lockdown, severe weather, and evacuation scenarios.", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> },
+  { name: "Staff Training Hours Tracker", fileType: "XLSX" as const, meta: "Dynamic workbook", desc: "Track the 40-hour DCF introductory course and 10-hour annual in-service requirement per staff member with auto-calculated progress.", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> },
+  { name: "Ratio Compliance Monitoring Log", fileType: "XLSX" as const, meta: "Daily tracker", desc: "Classroom-level staff-to-child ratio tracker pre-loaded with DCF age-group thresholds and automatic violation flags.", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> },
+  { name: "Medication Administration Log", fileType: "PDF" as const, meta: "2 pages · Fillable", desc: "Parent authorization, dosage tracking, and administration records — meets DCF documentation standards for medication handling.", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/><rect x="9" y="2" width="6" height="9"/></svg> },
 ];
 
 interface Doc { id: string; name: string; folder: string; storage_path: string; size_bytes: number; created_at: string; }
@@ -117,7 +164,7 @@ export default function DocumentsPage() {
   return (
     <>
       <Header title="Document Management" />
-      <div className="p-[24px_28px] space-y-5">
+      <div className="p-4 sm:p-[24px_28px] space-y-5">
 
         {/* Storage Bar */}
         <div className="bg-white border border-[#E2DFD8] rounded-[12px] px-[22px] py-[18px]">
@@ -130,9 +177,9 @@ export default function DocumentsPage() {
           </div>
           <div className="text-[11px] text-muted">
             {remainingMB} MB remaining ·{" "}
-            <Link href="/pricing" className="text-gold no-underline hover:text-[#A87D42] transition-colors">
+            <SeePlansButton className="text-gold no-underline hover:text-[#A87D42] transition-colors">
               Upgrade to Basic for 5 GB →
-            </Link>
+            </SeePlansButton>
           </div>
         </div>
 
@@ -282,15 +329,15 @@ export default function DocumentsPage() {
             </div>
 
             {/* Gate */}
-            <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[18px] py-3.5 flex items-center gap-3">
+            <div className="bg-cream border-l-[3px] border-gold rounded-r-[10px] px-[18px] py-3.5 flex flex-wrap items-center gap-3">
               <span className="text-[16px]">🔒</span>
-              <div className="flex-1">
+              <div className="flex-1 min-w-[180px]">
                 <h4 className="text-[13px] font-semibold text-navy">Track Document Expiration Dates</h4>
                 <p className="text-[12px] text-muted">Set expiry dates on policies, permits, and certifications. Get alerts before they lapse. Available on Basic.</p>
               </div>
-              <Link href="/pricing" className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
+              <SeePlansButton className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">
                 See Plans
-              </Link>
+              </SeePlansButton>
             </div>
           </>
         )}
@@ -298,27 +345,178 @@ export default function DocumentsPage() {
         {/* TEMPLATES TAB */}
         {tab === "templates" && (
           <div>
-            <div className="text-[13px] text-muted mb-4">
-              5 starter templates included on Free ·{" "}
-              <Link href="/pricing" className="text-gold font-medium hover:text-[#A87D42]">15+ more available on Basic</Link>
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 pb-6 mb-6 border-b border-[#E2DFD8]">
+              <div>
+                <div className="text-[11px] font-bold tracking-[2px] uppercase text-gold mb-2.5">Compliance Toolkit</div>
+                <h2 className="font-heading text-[28px] sm:text-[32px] text-navy leading-tight mb-2">
+                  Templates <span className="italic text-gold">library</span>
+                </h2>
+                <p className="text-[13px] text-muted leading-relaxed max-w-[500px]">
+                  Printable, fillable, and ready to use. Every template is built around Florida DCF requirements. Download what you need and track compliance in Compleros.
+                </p>
+              </div>
+              <div className="flex gap-3 shrink-0">
+                <div className="bg-white border border-[#E2DFD8] rounded-[12px] px-4 py-3.5 text-center min-w-[90px]">
+                  <div className="font-heading text-[24px] font-bold text-navy leading-none mb-1">5</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5px] text-muted">Free Templates</div>
+                </div>
+                <div className="bg-[#FFFBF0] border border-[rgba(196,152,90,0.3)] rounded-[12px] px-4 py-3.5 text-center min-w-[90px]">
+                  <div className="font-heading text-[24px] font-bold text-gold leading-none mb-1">20+</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5px] text-muted">With Basic</div>
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {FREE_TEMPLATES.map(t => (
-                <div key={t.name} className="bg-white border border-[#E2DFD8] rounded-[10px] p-[18px] hover:border-[#D4AD74] transition-colors">
-                  <div className="w-full h-[72px] rounded-[6px] bg-cream flex items-center justify-center text-[26px] mb-3">{t.icon}</div>
-                  <div className="text-[13px] font-semibold text-navy mb-1">{t.name}</div>
-                  <div className="text-[11px] text-muted leading-relaxed mb-3">{t.desc}</div>
-                  <button className="bg-navy text-white rounded-[7px] px-3 py-1.5 text-[11px] font-semibold hover:bg-[#143A52] transition-colors">⬇ Download</button>
+
+            {/* Info bar */}
+            <div className="flex items-start gap-3 bg-[#E8EEF2] border border-[#D6E0E8] rounded-[10px] px-4 py-3.5 mb-8">
+              <svg className="shrink-0 mt-0.5 text-navy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <p className="text-[12.5px] text-navy leading-relaxed">
+                <strong>Compleros doesn&apos;t store your records — it makes sure you have them.</strong> Download each template, complete it offline, and keep your originals where you store your records today.
+              </p>
+            </div>
+
+            {/* Free template categories */}
+            {TEMPLATE_CATEGORIES.map(cat => (
+              <section key={cat.label} className="mb-10">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-[10px] bg-white border border-[#E2DFD8] flex items-center justify-center text-navy shrink-0">
+                    {cat.icon}
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-heading text-[18px] text-navy">{cat.label}</div>
+                    <div className="text-[12px] text-muted mt-0.5">{cat.desc}</div>
+                  </div>
+                  <span className="text-[11px] font-semibold text-muted bg-[#EBE9E3] rounded-full px-3 py-1 shrink-0">
+                    {cat.templates.length} template{cat.templates.length !== 1 ? "s" : ""}
+                  </span>
                 </div>
-              ))}
-              {LOCKED_TEMPLATES.map(t => (
-                <div key={t.name} className="bg-white border border-[#E2DFD8] rounded-[10px] p-[18px] opacity-55 cursor-not-allowed">
-                  <div className="w-full h-[72px] rounded-[6px] bg-cream flex items-center justify-center text-[26px] mb-3">{t.icon}</div>
-                  <div className="text-[13px] font-semibold text-navy mb-1">{t.name}</div>
-                  <div className="text-[11px] text-muted leading-relaxed mb-3">{t.desc}</div>
-                  <Link href="/pricing" className="inline-block border border-[#E2DFD8] rounded-[7px] px-3 py-1.5 text-[11px] font-semibold text-[#2D2D2D] hover:border-navy transition-colors">🔒 Unlock</Link>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cat.templates.map(t => (
+                    <div key={t.name} className="group relative bg-white border border-[#E2DFD8] rounded-[14px] p-[22px] flex flex-col gap-3.5 transition-all duration-200 hover:-translate-y-[3px] hover:border-gold hover:shadow-lg overflow-hidden cursor-pointer">
+                      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-gold to-[#D4B07A] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="w-[52px] h-[52px] rounded-[10px] bg-cream border border-[#E2DFD8] flex items-center justify-center text-navy shrink-0">
+                          {t.icon}
+                        </div>
+                        <span className={`inline-flex px-2.5 py-[5px] rounded-[6px] text-[11px] font-bold tracking-[0.5px] ${FILE_BADGE[t.fileType]}`}>
+                          {t.fileType}
+                        </span>
+                      </div>
+                      <h3 className="font-heading text-[17px] text-navy leading-snug">{t.name}</h3>
+                      <p className="text-[12.5px] text-muted leading-relaxed flex-1">{t.desc}</p>
+                      <div className="flex items-center justify-between gap-2 pt-3.5 border-t border-[#E8E6E0]">
+                        <div className="flex items-center gap-1.5 text-[11px] text-muted font-medium">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                          {t.meta}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <button className="flex items-center gap-1 bg-white border border-[#E2DFD8] text-navy rounded-[7px] px-2.5 py-[7px] text-[11.5px] font-semibold hover:border-navy hover:bg-cream transition-all">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            PDF
+                          </button>
+                          {t.href ? (
+                            <Link href={t.href} className="flex items-center gap-1 bg-navy text-white rounded-[7px] px-2.5 py-[7px] text-[11.5px] font-semibold hover:bg-[#143A52] transition-colors">
+                              Open
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </Link>
+                          ) : (
+                            <button disabled className="flex items-center gap-1 bg-navy/40 text-white rounded-[7px] px-2.5 py-[7px] text-[11.5px] font-semibold cursor-not-allowed">
+                              Open
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </section>
+            ))}
+
+            {/* Locked templates */}
+            <section className="mb-10">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-[10px] bg-[#EFE4D0] border border-[rgba(196,152,90,0.3)] flex items-center justify-center text-gold shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <div className="font-heading text-[18px] text-navy">Unlock with Basic</div>
+                  <div className="text-[12px] text-muted mt-0.5">Advanced compliance templates for growing programs</div>
+                </div>
+                <span className="text-[11px] font-semibold text-gold bg-[#EFE4D0] rounded-full px-3 py-1 shrink-0">Basic plan</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {LOCKED_TEMPLATE_CARDS.map(t => (
+                  <div key={t.name} className="relative bg-gradient-to-br from-[#FAFAF8] to-[#F3F0E8] border border-[#E2DFD8] rounded-[14px] p-[22px] flex flex-col gap-3.5">
+                    <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5 bg-navy text-[#D4AD74] rounded-full px-2.5 py-[5px] text-[10px] font-bold uppercase tracking-[1.2px] shadow-md z-10">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                      Basic
+                    </div>
+                    <div className="flex items-start justify-between gap-3 opacity-45">
+                      <div className="w-[52px] h-[52px] rounded-[10px] bg-cream border border-[#E2DFD8] flex items-center justify-center text-navy shrink-0">
+                        {t.icon}
+                      </div>
+                      <span className={`inline-flex px-2.5 py-[5px] rounded-[6px] text-[11px] font-bold tracking-[0.5px] ${FILE_BADGE[t.fileType]}`}>
+                        {t.fileType}
+                      </span>
+                    </div>
+                    <h3 className="font-heading text-[17px] text-navy leading-snug opacity-45">{t.name}</h3>
+                    <p className="text-[12.5px] text-muted leading-relaxed flex-1 opacity-45">{t.desc}</p>
+                    <div className="flex items-center justify-between gap-2 pt-3.5 border-t border-[#E8E6E0]">
+                      <span className="text-[11px] text-muted font-medium">{t.meta}</span>
+                      <SeePlansButton className="inline-flex items-center gap-1.5 text-gold border border-gold rounded-[7px] px-3 py-[7px] text-[12px] font-semibold hover:bg-gold hover:text-white transition-colors">
+                        Unlock
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                      </SeePlansButton>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Upgrade banner */}
+            <div className="relative bg-gradient-to-br from-[#1B4D6B] via-[#133A52] to-[#0D2A3D] rounded-[18px] p-7 sm:p-10 overflow-hidden">
+              <div className="absolute top-[-80px] right-[-80px] w-[340px] h-[340px] rounded-full bg-[radial-gradient(circle,rgba(196,152,90,0.25)_0%,transparent_65%)] pointer-events-none" />
+              <div className="absolute bottom-[-60px] left-[40%] w-[260px] h-[260px] rounded-full bg-[radial-gradient(circle,rgba(42,106,143,0.4)_0%,transparent_65%)] pointer-events-none" />
+              <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-8">
+                <div className="flex-1">
+                  <div className="inline-block text-[11px] font-bold tracking-[2px] uppercase text-[#D4B07A] bg-[rgba(196,152,90,0.15)] border border-[rgba(196,152,90,0.3)] rounded-full px-3 py-1.5 mb-5">
+                    Upgrade to Basic
+                  </div>
+                  <h2 className="font-heading text-[24px] sm:text-[28px] text-white leading-tight mb-3">
+                    Stop chasing deadlines. <span className="italic text-[#D4B07A]">Let Compleros do it.</span>
+                  </h2>
+                  <p className="text-[13px] text-white/70 leading-relaxed mb-5 max-w-[500px]">
+                    Basic unlocks 20+ compliance templates, automated expiration alerts across every credential and license, and the full mock DCF inspection tool.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {["20+ premium templates", "Automated alerts", "Mock DCF inspection", "Up to 50 staff"].map(f => (
+                      <span key={f} className="inline-flex items-center gap-1.5 bg-white/[0.06] border border-white/[0.10] rounded-full px-3 py-1.5 text-[12px] text-white/85 font-medium">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#D4B07A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="text-center sm:text-right shrink-0">
+                  <div className="mb-4">
+                    <div className="font-heading text-[50px] text-white leading-none tracking-[-2px]">$25</div>
+                    <div className="text-[12px] text-white/60 mt-1">per month · or $240/yr</div>
+                  </div>
+                  <SeePlansButton className="inline-flex items-center gap-2 bg-gold text-white rounded-[10px] px-6 py-3.5 text-[14px] font-semibold hover:bg-[#B88A4E] transition-colors shadow-[0_8px_24px_rgba(196,152,90,0.3)]">
+                    Upgrade Now
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </SeePlansButton>
+                  <div className="text-[11.5px] text-white/45 mt-3">Cancel anytime</div>
+                </div>
+              </div>
             </div>
           </div>
         )}

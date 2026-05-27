@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
-import Link from "next/link";
 import SeePlansButton from "@/components/dashboard/SeePlansButton";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const STAFF_ROLES = ["Director", "Lead Teacher", "Assistant Teacher", "Admin Staff", "Other"];
 const FREE_LIMIT = 5;
@@ -26,6 +26,7 @@ export default function StaffPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [planType, setPlanType] = useState("free");
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const supabase = createClient();
 
@@ -69,8 +70,8 @@ export default function StaffPage() {
   };
 
   const deleteStaff = async (id: string) => {
-    if (!confirm("Remove this staff member?")) return;
     await supabase.from("staff").delete().eq("id", id);
+    setConfirmDeleteId(null);
     load();
   };
 
@@ -130,7 +131,7 @@ export default function StaffPage() {
                   {/* Actions */}
                   <div className="flex gap-2 mt-3 pt-3 border-t border-[#E2DFD8]">
                     <button onClick={() => openEdit(s)} className="flex-1 py-1.5 text-[12px] text-muted hover:text-navy border border-[#E2DFD8] rounded-[6px] hover:border-navy transition-colors">Edit</button>
-                    <button onClick={() => deleteStaff(s.id)} className="flex-1 py-1.5 text-[12px] text-red-400 hover:text-red-600 border border-[#E2DFD8] rounded-[6px] hover:border-red-300 transition-colors">Remove</button>
+                    <button onClick={() => setConfirmDeleteId(s.id)} className="flex-1 py-1.5 text-[12px] text-red-400 hover:text-red-600 border border-[#E2DFD8] rounded-[6px] hover:border-red-300 transition-colors">Remove</button>
                   </div>
                 </div>
               );
@@ -156,6 +157,17 @@ export default function StaffPage() {
           </div>
         )}
       </div>
+
+      {confirmDeleteId && (
+        <ConfirmModal
+          title="Remove Staff Member"
+          message="Are you sure you want to remove this staff member? This cannot be undone."
+          confirmLabel="Remove"
+          danger
+          onConfirm={() => deleteStaff(confirmDeleteId)}
+          onCancel={() => setConfirmDeleteId(null)}
+        />
+      )}
 
       {/* Modal */}
       {showModal && (
@@ -195,7 +207,7 @@ export default function StaffPage() {
             </div>
             <div className="flex gap-2.5 mt-5">
               <button onClick={() => setShowModal(false)} className="flex-1 border border-[#E2DFD8] rounded-[9px] py-3 text-[14px] font-semibold text-[#2D2D2D] hover:border-navy transition-colors">Cancel</button>
-              <button onClick={save} disabled={saving} className="flex-1 bg-navy text-white rounded-[9px] py-3 text-[14px] font-semibold disabled:opacity-50 hover:bg-[#143A52] transition-colors">
+              <button onClick={save} disabled={saving || !form.first_name.trim() || !form.last_name.trim() || !form.role} className="flex-1 bg-navy text-white rounded-[9px] py-3 text-[14px] font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#143A52] transition-colors">
                 {saving ? "Saving…" : editing ? "Save Changes" : "Add Staff Member"}
               </button>
             </div>

@@ -78,7 +78,7 @@ export default function DashboardSidebar({ user }: { user: User }) {
       <nav className="flex-1 py-2">
         {navGroups.map((group) => (
           <div key={group.label}>
-            <p className="px-3 pt-3.5 pb-1 text-[9px] font-bold uppercase tracking-[1.5px] text-white/22">
+            <p className="px-3 pt-3.5 pb-1 text-[9px] font-bold uppercase tracking-[1.5px] text-[#ffffff38]">
               {group.label}
             </p>
             {group.items.map((item) => {

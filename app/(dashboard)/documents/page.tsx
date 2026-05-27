@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
 import Link from "next/link";
 import SeePlansButton from "@/components/dashboard/SeePlansButton";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const FREE_STORAGE_BYTES = 250 * 1024 * 1024;
 
@@ -101,6 +102,8 @@ export default function DocumentsPage() {
   const [uploadFolder, setUploadFolder] = useState("Licenses & Permits");
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [confirmDeleteDoc, setConfirmDeleteDoc] = useState<Doc | null>(null);
+  const [renameModal, setRenameModal] = useState<{ doc: Doc; name: string } | null>(null);
 
   const supabase = createClient();
 
@@ -143,9 +146,9 @@ export default function DocumentsPage() {
   };
 
   const deleteDoc = async (doc: Doc) => {
-    if (!confirm(`Delete "${doc.name}"?`)) return;
     await supabase.storage.from("documents").remove([doc.storage_path]);
     await supabase.from("documents").delete().eq("id", doc.id);
+    setConfirmDeleteDoc(null);
     load();
   };
 
@@ -154,10 +157,10 @@ export default function DocumentsPage() {
     if (data?.signedUrl) window.open(data.signedUrl, "_blank");
   };
 
-  const renameDoc = async (doc: Doc) => {
-    const newName = prompt("New file name:", doc.name);
-    if (!newName || newName === doc.name) return;
-    await supabase.from("documents").update({ name: newName.trim() }).eq("id", doc.id);
+  const doRename = async () => {
+    if (!renameModal || !renameModal.name.trim() || renameModal.name === renameModal.doc.name) { setRenameModal(null); return; }
+    await supabase.from("documents").update({ name: renameModal.name.trim() }).eq("id", renameModal.doc.id);
+    setRenameModal(null);
     load();
   };
 
@@ -263,8 +266,8 @@ export default function DocumentsPage() {
                       </div>
                       <div className="flex gap-1.5 mt-2.5 pt-2.5 border-t border-[#E2DFD8]">
                         <button onClick={() => downloadDoc(doc)} className="flex-1 py-1.5 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-navy hover:text-navy transition-colors">⬇ Download</button>
-                        <button onClick={() => renameDoc(doc)} className="flex-1 py-1.5 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-navy hover:text-navy transition-colors">✏️ Rename</button>
-                        <button onClick={() => deleteDoc(doc)} className="flex-1 py-1.5 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-red-300 hover:text-red-500 transition-colors">🗑 Delete</button>
+                        <button onClick={() => setRenameModal({ doc, name: doc.name })} className="flex-1 py-1.5 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-navy hover:text-navy transition-colors">✏️ Rename</button>
+                        <button onClick={() => setConfirmDeleteDoc(doc)} className="flex-1 py-1.5 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-red-300 hover:text-red-500 transition-colors">🗑 Delete</button>
                       </div>
                     </div>
                   );
@@ -300,8 +303,8 @@ export default function DocumentsPage() {
                           <td className="px-3.5 py-3">
                             <div className="flex gap-1.5">
                               <button onClick={() => downloadDoc(doc)} className="px-2.5 py-1 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-navy hover:text-navy transition-colors whitespace-nowrap">⬇</button>
-                              <button onClick={() => renameDoc(doc)} className="px-2.5 py-1 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-navy hover:text-navy transition-colors">✏️</button>
-                              <button onClick={() => deleteDoc(doc)} className="px-2.5 py-1 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-red-300 hover:text-red-500 transition-colors">🗑</button>
+                              <button onClick={() => setRenameModal({ doc, name: doc.name })} className="px-2.5 py-1 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-navy hover:text-navy transition-colors">✏️</button>
+                              <button onClick={() => setConfirmDeleteDoc(doc)} className="px-2.5 py-1 text-[11px] border border-[#E2DFD8] rounded-[5px] bg-white text-muted hover:border-red-300 hover:text-red-500 transition-colors">🗑</button>
                             </div>
                           </td>
                         </tr>
@@ -521,6 +524,36 @@ export default function DocumentsPage() {
           </div>
         )}
       </div>
+
+      {confirmDeleteDoc && (
+        <ConfirmModal
+          title="Delete Document"
+          message={`Delete "${confirmDeleteDoc.name}"? This cannot be undone.`}
+          confirmLabel="Delete"
+          danger
+          onConfirm={() => deleteDoc(confirmDeleteDoc)}
+          onCancel={() => setConfirmDeleteDoc(null)}
+        />
+      )}
+
+      {renameModal && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-6" onClick={() => setRenameModal(null)}>
+          <div className="bg-white rounded-[18px] p-8 w-full max-w-[400px] shadow-[0_20px_60px_rgba(0,0,0,0.15)]" onClick={e => e.stopPropagation()}>
+            <h2 className="font-heading text-[20px] font-semibold text-navy mb-4">Rename File</h2>
+            <input
+              autoFocus
+              value={renameModal.name}
+              onChange={e => setRenameModal(m => m ? { ...m, name: e.target.value } : m)}
+              onKeyDown={e => { if (e.key === "Enter") doRename(); if (e.key === "Escape") setRenameModal(null); }}
+              className="w-full px-[15px] py-[11px] border border-[#E2DFD8] rounded-[8px] text-[13px] focus:outline-none focus:border-navy mb-5"
+            />
+            <div className="flex gap-2.5">
+              <button onClick={() => setRenameModal(null)} className="flex-1 border border-[#E2DFD8] rounded-[9px] py-3 text-[14px] font-semibold text-[#2D2D2D] hover:border-navy hover:text-navy transition-colors">Cancel</button>
+              <button onClick={doRename} disabled={!renameModal?.name.trim() || renameModal?.name === renameModal?.doc.name} className="flex-1 bg-navy text-white rounded-[9px] py-3 text-[14px] font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#143A52] transition-colors">Rename</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Upload Modal */}
       {showUploadModal && (

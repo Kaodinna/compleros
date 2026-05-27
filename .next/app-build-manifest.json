@@ -1,14 +1,14 @@
 {
   "pages": {
-    "/(dashboard)/documents/emergency-contact-form/page": [
+    "/(auth)/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/documents/emergency-contact-form/page.js"
+      "static/chunks/app/(auth)/login/page.js"
     ],
-    "/(dashboard)/layout": [
+    "/(auth)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/layout.js"
+      "static/chunks/app/(auth)/layout.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -16,15 +16,55 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(dashboard)/documents/page": [
+    "/(dashboard)/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/documents/page.js"
+      "static/chunks/app/(dashboard)/dashboard/page.js"
     ],
-    "/(dashboard)/documents/parent-authorization-form/page": [
+    "/(dashboard)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/documents/parent-authorization-form/page.js"
+      "static/chunks/app/(dashboard)/layout.js"
+    ],
+    "/(auth)/forgot-password/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(auth)/forgot-password/page.js"
+    ],
+    "/(auth)/reset-password/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(auth)/reset-password/page.js"
+    ],
+    "/(dashboard)/licenses/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/licenses/page.js"
+    ],
+    "/(dashboard)/settings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(dashboard)/settings/page.js"
+    ],
+    "/(marketing)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(marketing)/page.js"
+    ],
+    "/(marketing)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(marketing)/layout.js"
+    ],
+    "/(marketing)/features/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(marketing)/features/page.js"
+    ],
+    "/(marketing)/terms/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(marketing)/terms/page.js"
     ]
   }
 }

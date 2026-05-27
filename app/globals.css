@@ -19,6 +19,10 @@
   * {
     @apply box-border;
   }
+
+  button, a, [role="button"] {
+    cursor: pointer;
+  }
 }
 
 @layer components {

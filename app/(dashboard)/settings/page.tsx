@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Header from "@/components/dashboard/Header";
 import SeePlansButton from "@/components/dashboard/SeePlansButton";
+import ConfirmModal from "@/components/ConfirmModal";
 
 type Tab = "account" | "program" | "billing" | "notifications";
 const PROGRAM_TYPES = ["Childcare Center", "Home-Based Childcare", "Microschool", "Private School", "VPK Provider", "Before/After School"];
@@ -24,6 +25,7 @@ export default function SettingsPage() {
   const [programForm, setProgramForm] = useState({ name: "", type: "", county: "", enrollment_range: "", programId: "" });
   const [digestEnabled, setDigestEnabled] = useState(true);
   const [planType, setPlanType] = useState("free");
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const supabase = createClient();
 
@@ -87,7 +89,6 @@ export default function SettingsPage() {
   };
 
   const deleteAccount = async () => {
-    if (!confirm("Permanently delete your account and all data? This cannot be undone.")) return;
     await supabase.auth.signOut();
     router.push("/");
   };
@@ -163,7 +164,7 @@ export default function SettingsPage() {
                     </button>
                   </div>
                   <div className="mt-8 pt-5 border-t border-[#E2DFD8]">
-                    <button onClick={deleteAccount} className="text-[13px] text-[#C0392B] cursor-pointer hover:underline">
+                    <button onClick={() => setShowDeleteConfirm(true)} className="text-[13px] text-[#C0392B] cursor-pointer hover:underline">
                       Delete Account
                     </button>
                   </div>
@@ -264,6 +265,16 @@ export default function SettingsPage() {
           )}
         </div>
       </div>
+      {showDeleteConfirm && (
+        <ConfirmModal
+          title="Delete Account"
+          message="Permanently delete your account and all data? This cannot be undone."
+          confirmLabel="Delete Account"
+          danger
+          onConfirm={deleteAccount}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
+      )}
     </>
   );
 }

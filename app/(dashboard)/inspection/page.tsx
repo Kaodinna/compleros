@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
 import SeePlansButton from "@/components/dashboard/SeePlansButton";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface ChecklistItem { id: string; category: string; item_text: string; display_order: number; }
 
@@ -21,6 +22,7 @@ export default function InspectionPage() {
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const supabase = createClient();
 
@@ -60,9 +62,10 @@ export default function InspectionPage() {
   };
 
   const resetAll = async () => {
-    if (!userId || !confirm("Reset all checklist items?")) return;
+    if (!userId) return;
     setCompletions({});
     await supabase.from("checklist_completions").delete().eq("user_id", userId);
+    setShowResetConfirm(false);
   };
 
   const total = items.length;
@@ -95,7 +98,7 @@ export default function InspectionPage() {
             <div className="font-heading text-[15px] font-semibold text-navy">Inspection Readiness</div>
             <div className="text-[12px] text-muted mt-0.5">{completed} of {total} items completed</div>
           </div>
-          <button onClick={resetAll} className="border border-[#E2DFD8] rounded-[9px] px-[18px] py-2 text-[12px] font-semibold text-[#2D2D2D] hover:border-navy hover:text-navy transition-colors">
+          <button onClick={() => setShowResetConfirm(true)} className="border border-[#E2DFD8] rounded-[9px] px-[18px] py-2 text-[12px] font-semibold text-[#2D2D2D] hover:border-navy hover:text-navy transition-colors">
             Reset
           </button>
         </div>
@@ -155,6 +158,16 @@ export default function InspectionPage() {
           <SeePlansButton className="shrink-0 bg-gold text-white rounded-[9px] px-[18px] py-2 text-[12px] font-semibold hover:bg-[#A87D42] transition-colors">See Plans</SeePlansButton>
         </div>
       </div>
+      {showResetConfirm && (
+        <ConfirmModal
+          title="Reset Checklist"
+          message="Reset all checklist items? Your progress will be cleared and this cannot be undone."
+          confirmLabel="Reset"
+          danger
+          onConfirm={resetAll}
+          onCancel={() => setShowResetConfirm(false)}
+        />
+      )}
     </>
   );
 }

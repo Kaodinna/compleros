@@ -203,7 +203,7 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !form.fullName || !form.email || !form.password || !form.agreedToTerms}
             className="btn-primary w-full !py-3.5 !text-[15px] disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Creating account…" : "Create Free Account"}

@@ -45,20 +45,15 @@ export default function Footer() {
             </p>
             {/* Social */}
             <div className="flex gap-3">
-              {[
-                { label: "Twitter / X", symbol: "𝕏" },
-                { label: "LinkedIn", symbol: "in" },
-                { label: "Facebook", symbol: "f" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href="#"
-                  aria-label={`Compleros on ${s.label}`}
-                  className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[13px] text-white/40 hover:bg-white/10 hover:text-gold-light transition-all duration-200"
-                >
-                  {s.symbol}
-                </a>
-              ))}
+              <a
+                href="https://www.facebook.com/profile.php?id=61572328528636"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compleros on Facebook"
+                className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[13px] text-white/40 hover:bg-white/10 hover:text-gold-light transition-all duration-200"
+              >
+                f
+              </a>
             </div>
           </div>
 

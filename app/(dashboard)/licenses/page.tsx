@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/dashboard/Header";
-import Link from "next/link";
 import SeePlansButton from "@/components/dashboard/SeePlansButton";
+import ConfirmModal from "@/components/ConfirmModal";
 
 const LICENSE_TYPES = [
   "DCF Childcare Facility License",
@@ -43,6 +43,7 @@ export default function LicensesPage() {
   const [error, setError] = useState("");
   const [planType, setPlanType] = useState("free");
   const [renewalNotes, setRenewalNotes] = useState<Record<string, string>>({});
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const supabase = createClient();
 
@@ -96,8 +97,8 @@ export default function LicensesPage() {
   };
 
   const deleteLicense = async (id: string) => {
-    if (!confirm("Delete this license?")) return;
     await supabase.from("licenses").delete().eq("id", id);
+    setConfirmDeleteId(null);
     load();
   };
 
@@ -190,7 +191,7 @@ export default function LicensesPage() {
                     <button onClick={() => openEdit(lic)} className="border border-[#E2DFD8] rounded-[9px] px-[18px] py-2 text-[12px] font-semibold text-[#2D2D2D] hover:border-navy hover:text-navy transition-colors">
                       ✏️ Edit License
                     </button>
-                    <button onClick={() => deleteLicense(lic.id)} className="border border-[#E2DFD8] rounded-[9px] px-[18px] py-2 text-[12px] text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors">
+                    <button onClick={() => setConfirmDeleteId(lic.id)} className="border border-[#E2DFD8] rounded-[9px] px-[18px] py-2 text-[12px] text-red-500 hover:border-red-300 hover:bg-red-50 transition-colors">
                       Delete
                     </button>
                   </div>
@@ -244,6 +245,17 @@ export default function LicensesPage() {
         </div>
       </div>
 
+      {confirmDeleteId && (
+        <ConfirmModal
+          title="Delete License"
+          message="Are you sure you want to delete this license? This cannot be undone."
+          confirmLabel="Delete"
+          danger
+          onConfirm={() => deleteLicense(confirmDeleteId)}
+          onCancel={() => setConfirmDeleteId(null)}
+        />
+      )}
+
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-6" onClick={() => setShowModal(false)}>
@@ -279,7 +291,7 @@ export default function LicensesPage() {
             </div>
             <div className="flex gap-2.5 mt-5">
               <button onClick={() => setShowModal(false)} className="flex-1 border border-[#E2DFD8] rounded-[9px] py-3 text-[14px] font-semibold text-[#2D2D2D] hover:border-navy hover:text-navy transition-colors">Cancel</button>
-              <button onClick={save} disabled={saving} className="flex-1 bg-navy text-white rounded-[9px] py-3 text-[14px] font-semibold disabled:opacity-50 hover:bg-[#143A52] transition-colors">
+              <button onClick={save} disabled={saving || !form.license_type || !form.expires_at} className="flex-1 bg-navy text-white rounded-[9px] py-3 text-[14px] font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#143A52] transition-colors">
                 {saving ? "Saving…" : editing ? "Save Changes" : "Add License"}
               </button>
             </div>

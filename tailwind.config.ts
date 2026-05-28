@@ -26,6 +26,7 @@ const config: Config = {
         border: "#E2DFD8",
         muted: "#6B7280",
         success: "#2E7D52",
+        warning: "#D4882E",
         danger: "#C0392B",
       },
       fontFamily: {

@@ -1,8 +1,8 @@
 {
-  "/(marketing)/page": "app/(marketing)/page.js",
-  "/(marketing)/terms/page": "app/(marketing)/terms/page.js",
-  "/(marketing)/features/page": "app/(marketing)/features/page.js",
-  "/(dashboard)/dashboard/page": "app/(dashboard)/dashboard/page.js",
-  "/(dashboard)/licenses/page": "app/(dashboard)/licenses/page.js",
-  "/(dashboard)/settings/page": "app/(dashboard)/settings/page.js"
+  "/admin/analytics/page": "app/admin/analytics/page.js",
+  "/admin/settings/page": "app/admin/settings/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/providers/page": "app/admin/providers/page.js",
+  "/admin/resources/page": "app/admin/resources/page.js",
+  "/admin/compliance/page": "app/admin/compliance/page.js"
 }

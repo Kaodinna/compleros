@@ -1,14 +1,5 @@
 {
-  "node": {
-    "cd0280a994845722b0faa1dfa96ef65f7c5a7761": {
-      "workers": {
-        "app/(dashboard)/dashboard/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fdecagonuno%2FDocuments%2Fcompleros%2Fapp%2F(dashboard)%2Fdashboard%2Fpage.tsx%22%2C%5B%22%24%24ACTION_0%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/(dashboard)/dashboard/page": "rsc"
-      }
-    }
-  },
+  "node": {},
   "edge": {},
-  "encryptionKey": "jCsPGMIcYk/alGi9pM5kxW/EJ61KPHKuoIioEbzyu0Q="
+  "encryptionKey": "gHFgYOGmR26AHIxLqm5GVPLJLXvG0n0aHIHklsCjIHg="
 }
